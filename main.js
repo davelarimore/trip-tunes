@@ -1,33 +1,70 @@
-function getDataFromApi(start, end, callback) {
-  const query = {
-    origin: `${start}`,
-    destination: `${end}`,
-    key: 'AIzaSyA1Tui8IKA5sdj7ktD7BbjkjZKuFxLHDEU',
+let citiesList = [];
+
+function initMap() {
+let directionsService = new google.maps.DirectionsService;
+let directionsDisplay = new google.maps.DirectionsRenderer;
+let map = new google.maps.Map(document.getElementById('map'), {
+  zoom: 7,
+  center: {lat: 41.85, lng: -87.65}
+});
+directionsDisplay.setMap(map);
+
+let onChangeHandler = function() {
+	calculateAndDisplayRoute(directionsService, directionsDisplay);
+	};
+	document.getElementById('js-submit').addEventListener('click', onChangeHandler);
+	}
+
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+directionsService.route({
+  origin: document.getElementById('start').value,
+  destination: document.getElementById('end').value,
+  travelMode: 'DRIVING'
+}, function(response, status) {
+  if (status === 'OK') {
+    directionsDisplay.setDirections(response);
+    findCities(response);
+  } else {
+    window.alert('Directions request failed due to ' + status);
   }
-  $.getJSON('https://maps.googleapis.com/maps/api/directions/json', query, callback);
-}
-// getDataFromApi('Indianapolis', 'Flagstaff')
-
-function watchSubmit() {
-	$('.js-search-form').submit(event => {
-		event.preventDefault();
-		const startTarget = $(event.currentTarget).find('.start');
-		const start = startTarget.val();
-		startTarget.val(""); //reset
-		const endTarget = $(event.currentTarget).find('.end');
-		const end = endTarget.val();
-		endTarget.val(""); //reset
-		getDataFromApi(start, end, displayMapSearchData);
-	});
+});
 }
 
-$(watchSubmit);
-
-
-
-function displayMapSearchData(data) {
-	// totalResults = `${data.pageInfo.totalResults}`;
-	// const results = data.items.map((item, index) => renderResult(item));
-	// $('.js-search-results').attr('aria-label', `Showing 12 of ${totalResults} results`);
-	$('.js-results').html(data);
+function findCities(serviceResponse) {
+	let routeLeg = serviceResponse.routes[0].legs[0];
+	let listLength = Math.floor(routeLeg.distance.value / 320000); //one city every 200mi
+    console.log(serviceResponse.routes[0].legs[0]);
+    console.log('list will have length ' + listLength);
+    console.log('total route in meters is ' + routeLeg.distance.value); //meters
+    console.log('first route step in meters is ' + routeLeg.steps[0].distance.value); //meters
+    console.log('first route step lat/lon ' + routeLeg.steps[0].end_location.lat() + " " + routeLeg.steps[0].end_location.lng());
+    let longSteps = routeLeg.steps.filter(step => step.distance.value > 1600);
+    console.log(longSteps);
+    longSteps.forEach(city => {
+    	//citiesList.push(city.end_location.lat() + "," + city.end_location.lng());
+    	reverseGeoCode(city.end_location.lat(), city.end_location.lng());
+    })
+    console.log(citiesList);
 }
+
+function reverseGeoCode(lat, lon) {
+  const query = {
+	//format: 'json',
+	key: 'eVTA5UuJha1AWdQjzcHPOGrNuPpslvsw',
+	json_callback: 'convertToCity',
+	lat: `${lat}`,
+	lon: `${lon}`,
+  }
+	//$.getJSON('https://open.mapquestapi.com/nominatim/v1/reverse.php', query);
+	console.log(JSON.stringify(`https://open.mapquestapi.com/nominatim/v1/reverse.php?key=eVTA5UuJha1AWdQjzcHPOGrNuPpslvsw&format=json&json_callback=convertToCity&lat=${lat}&lon=${lon}`));
+	$.getJSON(`https://open.mapquestapi.com/nominatim/v1/reverse.php?key=eVTA5UuJha1AWdQjzcHPOGrNuPpslvsw&json_callback=convertToCity&lat=${lat}&lon=${lon}`);
+}
+
+function convertToCity(geoResponse) {
+	console.log(geoResponse);
+	console.log(geoResponse.address.town);
+	citiesList.push(geoResponse.address.town);
+	console.log(citiesList);
+}
+//https://open.mapquestapi.com/nominatim/v1/reverse.php?key=eVTA5UuJha1AWdQjzcHPOGrNuPpslvsw&format=json&lat=39.0982035&lon=-88.5780341

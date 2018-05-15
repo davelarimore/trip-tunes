@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Directions service</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-	<link href="main.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-	<header>
-		<h1>Hello there!</h1>
-	</header>
-	<main>
-		<form class="js-search-form">
-			<fieldset>
-				<label for="start" hidden>Start</label>
-				<input type="text" id="start" name="start" class="js-start">
-				<label for="end" hidden>End</label>
-				<input type="text" id="end" name="end" class="js-end">
-				<button type="submit">Search</button>
-			</fieldset>
-		</form>
-		<section class="js-results">
-		</section>
-	</main>
-<script type="text/javascript" src="main.js"></script>
-</body>
+  </head>
+  <body>
+    <div id="floating-panel">
+	    <form id="js-form">
+	    <b>Start: </b>
+		    <input id="start">
+		    </input>
+	    <b>End: </b>
+		    <input id="end">
+		    </input>
+		    <a href="#" id="js-submit">Search</a>
+	    </form>
+    </div>
+    <div id="map"></div>
+    <script type="text/javascript" src="main.js"></script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDy8TJO_D0Ewh8Y7WXBfO8O0GalpZwqyfU&callback=initMap">
+    </script>
+  </body>
 </html>
