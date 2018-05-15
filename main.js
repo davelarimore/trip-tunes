@@ -1,7 +1,7 @@
 function getDataFromApi(start, end, callback) {
   const query = {
-    origin: start,
-    destination: end,
+    origin: `${start}`,
+    destination: `${end}`,
     key: 'AIzaSyA1Tui8IKA5sdj7ktD7BbjkjZKuFxLHDEU',
   }
   $.getJSON('https://maps.googleapis.com/maps/api/directions/json', query, callback);
