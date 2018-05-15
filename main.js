@@ -37,9 +37,25 @@ function getDataFromApi(start, end, callback) {
     destination: end,
     key: 'AIzaSyA1Tui8IKA5sdj7ktD7BbjkjZKuFxLHDEU',
   }
-  $.getJSON(`https://maps.googleapis.com/maps/api/directions/json`, query, callback);
+  $.getJSON('https://maps.googleapis.com/maps/api/directions/json', query, callback);
 }
-getDataFromApi('Indianapolis', 'Flagstaff')
+
+
+function watchSubmit() {
+	$('.js-search-form').submit(event => {
+		event.preventDefault();
+		const startTarget = $(event.currentTarget).find('.start');
+		const start = startTarget.val();
+		startTarget.val(""); //reset
+		const endTarget = $(event.currentTarget).find('.end');
+		const start = endTarget.val();
+		endTarget.val(""); //reset
+		getDataFromApi(start, end, displayYoutubeSearchData);
+	});
+}
+
+$(watchSubmit);
+
 
 /*
 function renderResult(result) {
@@ -67,16 +83,7 @@ function displayYoutubeSearchData(data) {
 	$('.js-pagination').html(pagination);
 }
 
-function watchSubmit() {
-	$('.js-search-form').submit(event => {
-		event.preventDefault();
-		const queryTarget = $(event.currentTarget).find('.js-query');
-		const query = queryTarget.val();
-		currentQuery = query
-		queryTarget.val("");
-		getDataFromApi(query, displayYoutubeSearchData);
-	});
-}
+
 
 function watchNext() {
 	$('main').on('click', '.js-next', event => {
@@ -92,6 +99,6 @@ function watchPrev() {
 	});
 }
 
-$(watchSubmit);
+
 $(watchNext);
 $(watchPrev);

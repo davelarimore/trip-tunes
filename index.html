@@ -6,7 +6,20 @@
 	<link href="main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<h1>Hello there!</h1>
+	<header>
+		<h1>Hello there!</h1>
+	</header>
+	<main>
+		<form class="js-search-form">
+			<fieldset>
+				<label for="start" hidden>Start</label>
+				<input type="text" id="start" name="start" class="js-start">
+				<label for="end" hidden>End</label>
+				<input type="text" id="end" name="end" class="js-end">
+				<button type="submit">Search</button>
+			</fieldset>
+		</form>
+	</main>
 <script type="text/javascript" src="main.js"></script>
 </body>
 </html>
