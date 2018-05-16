@@ -10,6 +10,7 @@ let map = new google.maps.Map(document.getElementById('map'), {
 directionsDisplay.setMap(map);
 
 let onChangeHandler = function() {
+  citiesList = [];
 	calculateAndDisplayRoute(directionsService, directionsDisplay);
 	};
 	document.getElementById('js-submit').addEventListener('click', onChangeHandler);
@@ -48,22 +49,27 @@ function findCities(serviceResponse) {
 }
 
 function reverseGeoCode(lat, lon) {
-  const query = {
-	format: 'json',
-	key: 'eVTA5UuJha1AWdQjzcHPOGrNuPpslvsw',
-	json_callback: 'convertToCity',
-	lat: `${lat}`,
-	lon: `${lon}`,
-  }
-  	console.log(query);
-	//$.getJSON('https://open.mapquestapi.com/nominatim/v1/reverse.php', query);
-	$.getJSON(`https://open.mapquestapi.com/nominatim/v1/reverse.php?key=eVTA5UuJha1AWdQjzcHPOGrNuPpslvsw&lat=${lat}&lon=${lon}&json_callback=convertToCity`);
+  let latlon = `${lat},${lon}`;
+$.ajax({
+  url: "https://open.mapquestapi.com/nominatim/v1/reverse.php?key=eVTA5UuJha1AWdQjzcHPOGrNuPpslvsw&zoom=10&json_callback=convertToCity&format=jsonv2",
+  jsonp: "convertToCity",
+  dataType: "jsonp",
+  data: {
+    lat: `${lat}`,
+    lon: `${lon}`,
+  },
+});
 }
 
-function convertToCity(json) {
-	console.log(json);
-	console.log(json.address.city);
-	citiesList.push(json.address.city);
-	console.log(citiesList);
+function convertToCity(data) {
+  let cityName = data['address']['city'];
+  if(citiesList.indexOf(cityName) === -1 && cityName !== undefined) {
+      citiesList.push(cityName);
+    }
+  //citiesList.push(data['address']['city']);
+  //citiesList.city = (data['address']['city']);
+  //citiesList.state = (data['address']['state']);
+  //citiesList.importance = (data['importance']); //jsonv2
+  //citiesList.placeRank = (data['place_rank']); //jsonv2
+  //console.log(citiesList);
 }
-//https://open.mapquestapi.com/nominatim/v1/reverse.php?key=eVTA5UuJha1AWdQjzcHPOGrNuPpslvsw&format=json&lat=39.0982035&lon=-88.5780341
