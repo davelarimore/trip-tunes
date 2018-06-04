@@ -92,7 +92,9 @@ function searchSongs(city) {
         },
         data: {
           q: city,
-          type: 'track'
+          type: track,
+          market: US,
+          limit: 20
         },
         success: function (response) {
           console.log(response);
