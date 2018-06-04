@@ -47,7 +47,7 @@ function findCities(serviceResponse) {
     	//citiesList.push(city.end_location.lat() + "," + city.end_location.lng());
     	reverseGeoCode(city.end_location.lat().toFixed(6), city.end_location.lng().toFixed(6));
     })
-    console.log(citiesList);
+    console.log('I found these cities on your route:' + citiesList);
     renderTracks(citiesList);
 }
 
@@ -77,7 +77,7 @@ function convertToCity(data) {
   //console.log(citiesList);
 }
 
-// Spotify
+// ======Spotify=======
 // https://accounts.spotify.com/authorize?client_id=eb2d914cc86b4ee48be7a0ad18df13ec&redirect_uri=https:%2F%2Fdavelarimore.github.io%2Ftrip-tunes&scope=playlist-modify-public&response_type=token
 
 function parseURLHash () {
@@ -89,7 +89,7 @@ function parseURLHash () {
 urlHash = parseURLHash();
 const accessToken = urlHash.access_token;
 
-function searchSongs(city) {
+searchSongs = function(city) {
       $.ajax({
         url: 'https://api.spotify.com/v1/search',
         headers: {
@@ -109,6 +109,6 @@ function searchSongs(city) {
 }
 
 function renderTracks(searchList){
-  searchList.map(searchSongs());
-  console.log(trackTitles);
+  searchList.map(searchSongs);
+  console.log('I found these songs based on the cities:' + trackTitles);
   }
