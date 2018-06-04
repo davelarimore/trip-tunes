@@ -1,4 +1,5 @@
 let citiesList = [];
+let trackTitles = [];
 
 function initMap() {
 let directionsService = new google.maps.DirectionsService;
@@ -81,17 +82,14 @@ function convertToCity(data) {
 // https://accounts.spotify.com/authorize?client_id=eb2d914cc86b4ee48be7a0ad18df13ec&redirect_uri=https:%2F%2Fdavelarimore.github.io%2Ftrip-tunes&scope=playlist-modify-public&response_type=token
 
 function parseURLHash () {
-    var search = location.hash.substring(1);
-    var urlHash = search?JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}',
-                     function(key, value) { return key===""?value:decodeURIComponent(value) }):{}
+    let search = location.hash.substring(1);
+    let urlHash = search?JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) }):{}
     return urlHash;
 }
 urlHash = parseURLHash();
 const accessToken = urlHash.access_token;
 
-function renderTracks(searchList) {
-  let trackTitles = [];
-  trackTitles = searchList.map(function(city) {
+function searchCity(city) {
           $.ajax({
             url: 'https://api.spotify.com/v1/search',
             headers: {
@@ -105,11 +103,15 @@ function renderTracks(searchList) {
             },
             success: function(response) {
               console.log(response.tracks.items[0].name);
-              return response.tracks.items[0].name;
+              // return response.tracks.items[0].name;
+              trackTitles.push(response.tracks.items[0].name);
             }
         });
       }
-    );
+
+function renderTracks(searchList) {
+  // trackTitles = searchList.map(searchCity);
+  searchList.forEach(searchCity(city));
   console.log('I found these songs based on the cities:');
   console.log(trackTitles);
   }
