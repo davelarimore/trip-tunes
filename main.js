@@ -99,7 +99,7 @@ function searchSongs(city) {
         success: function (response) {
           let trackTitles = [];
           for (i=0; i < response.tracks.items.lengthl i++) {
-          trackTitles.push(response.tracks.items[0].name)
+          trackTitles.push(response.tracks.items[i].name)
         }
           console.log(trackTitles);
         }
