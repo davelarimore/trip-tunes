@@ -86,7 +86,7 @@ function parseURLHash () {
 urlHash = parseURLHash();
 const accessToken = urlHash.access_token;
 
-findTrack = function(city) {
+function findTrack(city) {
   $.ajax({
     url: 'https://api.spotify.com/v1/search',
     headers: {
@@ -107,7 +107,11 @@ findTrack = function(city) {
 
 function renderTracks(searchList) {
   let trackTitles = [];
-  trackTitles = searchList.map(city => findTrack(city));
+  trackTitles = searchList.map(city => {
+    console.log(city);
+    return findTrack(city);
+  }
+  );
   console.log('I found these songs based on the cities:');
   console.log(trackTitles);
 }
