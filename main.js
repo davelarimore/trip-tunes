@@ -92,12 +92,12 @@ function searchSongs(city) {
         },
         data: {
           q: city,
-          type: track,
-          market: US,
+          type: 'track',
+          market: 'US',
           limit: 20
         },
         success: function (response) {
           console.log(response);
-}
+        }
     });
 }
