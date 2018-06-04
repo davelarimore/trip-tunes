@@ -103,11 +103,7 @@ function searchSongs(city) {
         },
         success: function(response) {
           console.log(response.tracks.items[0].name);
-          trackTitles.push(response.tracks.items[0].name)
-          // for (i=0; i < response.tracks.items.length; i++) {
-          // trackTitles.push(response.tracks.items[i].name)
-        // };
-          // console.log(trackTitles);
+          return response.tracks.items[0].name;
         }
     });
 }
