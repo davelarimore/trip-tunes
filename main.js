@@ -89,25 +89,6 @@ function parseURLHash () {
 urlHash = parseURLHash();
 const accessToken = urlHash.access_token;
 
-function(city) {
-      $.ajax({
-        url: 'https://api.spotify.com/v1/search',
-        headers: {
-          'Authorization': 'Bearer ' + accessToken
-        },
-        data: {
-          q: 'track:'+ city,
-          type: 'track',
-          market: 'US',
-          limit: 1
-        },
-        success: function(response) {
-          console.log(response.tracks.items[0].name);
-          return response.tracks.items[0].name;
-        }
-    });
-}
-
 function renderTracks(searchList) {
   let trackTitles = [];
   trackTitles = searchList.map(function(city) {
