@@ -34,12 +34,12 @@ directionsService.route({
 
 function findCities(serviceResponse) {
 	let routeLeg = serviceResponse.routes[0].legs[0];
-	let listLength = Math.floor(routeLeg.distance.value / 320000); //one city every 200mi
-    console.log(serviceResponse.routes[0].legs[0]);
-    console.log('list will have length ' + listLength);
-    console.log('total route in meters is ' + routeLeg.distance.value); //meters
-    console.log('first route step in meters is ' + routeLeg.steps[0].distance.value); //meters
-    console.log('first route step lat/lon ' + routeLeg.steps[0].end_location.lat() + " " + routeLeg.steps[0].end_location.lng());
+	// let listLength = Math.floor(routeLeg.distance.value / 320000); //one city every 200mi
+    // console.log(serviceResponse.routes[0].legs[0]);
+    // console.log('list will have length ' + listLength);
+    // console.log('total route in meters is ' + routeLeg.distance.value); //meters
+    // console.log('first route step in meters is ' + routeLeg.steps[0].distance.value); //meters
+    // console.log('first route step lat/lon ' + routeLeg.steps[0].end_location.lat() + " " + routeLeg.steps[0].end_location.lng());
     let longSteps = routeLeg.steps.filter(step => step.distance.value > 1600);
     console.log(longSteps);
     longSteps.forEach(city => {
@@ -47,6 +47,7 @@ function findCities(serviceResponse) {
     	reverseGeoCode(city.end_location.lat().toFixed(6), city.end_location.lng().toFixed(6));
     })
     console.log(citiesList);
+    renderTracks(citiesList);
 }
 
 function reverseGeoCode(lat, lon) {
@@ -75,6 +76,9 @@ function convertToCity(data) {
   //console.log(citiesList);
 }
 
+// Spotify
+// https://accounts.spotify.com/authorize?client_id=eb2d914cc86b4ee48be7a0ad18df13ec&redirect_uri=https:%2F%2Fdavelarimore.github.io%2Ftrip-tunes&scope=playlist-modify-public&response_type=token
+
 function parseURLHash () {
     var search = location.hash.substring(1);
     var urlHash = search?JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}',
@@ -94,14 +98,21 @@ function searchSongs(city) {
           q: 'track:'+ city,
           type: 'track',
           market: 'US',
-          limit: 5
+          limit: 1
         },
         success: function (response) {
-          let trackTitles = [];
-          for (i=0; i < response.tracks.items.length; i++) {
-          trackTitles.push(response.tracks.items[i].name)
-        };
-          console.log(trackTitles);
+          return response.tracks.items[0].name
+          // let trackTitles = [];
+          // for (i=0; i < response.tracks.items.length; i++) {
+          // trackTitles.push(response.tracks.items[i].name)
+        // };
+          // console.log(trackTitles);
         }
     });
 }
+
+function renderTracks(citiesList){
+  let trackList = [];
+  citiesList.map(searchSongs);
+  console.log(trackList);
+  }
