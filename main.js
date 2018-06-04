@@ -89,7 +89,11 @@ function parseURLHash () {
 urlHash = parseURLHash();
 const accessToken = urlHash.access_token;
 
-function searchCity(city) {
+
+function renderTracks(searchList) {
+  // trackTitles = searchList.map(searchCity);
+  searchList.forEach(
+    function(city) {
           $.ajax({
             url: 'https://api.spotify.com/v1/search',
             headers: {
@@ -109,9 +113,8 @@ function searchCity(city) {
         });
       }
 
-function renderTracks(searchList) {
-  // trackTitles = searchList.map(searchCity);
-  searchList.forEach(searchCity(city));
+
+    );
   console.log('I found these songs based on the cities:');
   console.log(trackTitles);
   }
