@@ -1,4 +1,5 @@
 let citiesList = [];
+let trackTitles = [];
 
 function initMap() {
 let directionsService = new google.maps.DirectionsService;
@@ -88,7 +89,7 @@ function parseURLHash () {
 urlHash = parseURLHash();
 const accessToken = urlHash.access_token;
 
-function searchSongs(city) {
+searchSongs = function(city) {
       $.ajax({
         url: 'https://api.spotify.com/v1/search',
         headers: {
@@ -101,8 +102,8 @@ function searchSongs(city) {
           limit: 1
         },
         success: function (response) {
-          return response.tracks.items[0].name
-          // let trackTitles = [];
+          // console.log(response.tracks.items[0].name);
+          trackTitles.push(response.tracks.items[0].name)
           // for (i=0; i < response.tracks.items.length; i++) {
           // trackTitles.push(response.tracks.items[i].name)
         // };
@@ -112,7 +113,6 @@ function searchSongs(city) {
 }
 
 function renderTracks(citiesList){
-  let trackList = [];
   citiesList.map(searchSongs);
-  console.log(trackList);
+  console.log(trackTitles);
   }
