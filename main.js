@@ -20,7 +20,8 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 directionsService.route({
   origin: document.getElementById('start').value,
   destination: document.getElementById('end').value,
-  travelMode: 'DRIVING'
+  travelMode: 'DRIVING',
+  //avoidTolls: true
 }, function(response, status) {
   if (status === 'OK') {
     directionsDisplay.setDirections(response);
@@ -72,4 +73,29 @@ function convertToCity(data) {
   //citiesList.importance = (data['importance']); //jsonv2
   //citiesList.placeRank = (data['place_rank']); //jsonv2
   //console.log(citiesList);
+}
+
+function parseURLHash () {
+    var search = location.hash.substring(1);
+    var urlHash = search?JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}',
+                     function(key, value) { return key===""?value:decodeURIComponent(value) }):{}
+    return urlHash;
+}
+urlHash = parseURLHash();
+const accessToken = urlHash.access_token;
+
+function searchSongs(city) {
+      $.ajax({
+        url: 'https://api.spotify.com/v1/search',
+        headers: {
+          'Authorization': 'Bearer ' + accessToken
+        },
+        data: {
+          q: city,
+          type: 'track'
+        },
+        success: function (response) {
+          console.log(response);
+}
+    });
 }

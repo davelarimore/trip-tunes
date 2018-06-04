@@ -1,5 +1,4 @@
 
-/*
 https://maps.googleapis.com/maps/api/directions/outputFormat?parameters
 
 
@@ -29,10 +28,7 @@ function getDataFromApi(start, end, callback) {
 	}
 	console.log($.ajax(settings));
 }
-/*/
 
-
-/*
 function renderResult(result) {
 	return `<div class="thumbnail"><a class="modalLink" href="#" role="button" aria-label="Play video in modal" onclick="document.getElementById('${result.id.videoId}').style.display='block'"><img src="${result.snippet.thumbnails.medium.url}" title="${result.snippet.title}" alt="${result.snippet.title}"/></a><a class="channelLink" role="button" href="https://www.youtube.com/channel/${result.snippet.channelId}" target="_blank">More from this channel</a></div><div id="${result.id.videoId}" class="modal" onclick="this.style.display='none'"><iframe width="560" height="315" src="https://www.youtube.com/embed/${result.id.videoId}" frameborder="0"></iframe><a href="#" aria-role="button" aria-label="Close modal"></a></div>`;
 }
