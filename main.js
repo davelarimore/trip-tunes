@@ -98,9 +98,9 @@ function searchSongs(city) {
         },
         success: function (response) {
           let trackTitles = [];
-          for (i=0; i < response.tracks.items.lengthl i++) {
+          for (i=0; i < response.tracks.items.length; i++) {
           trackTitles.push(response.tracks.items[i].name)
-        }
+        };
           console.log(trackTitles);
         }
     });
