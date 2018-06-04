@@ -1,5 +1,4 @@
 let citiesList = [];
-let trackTitles = [];
 
 function initMap() {
 let directionsService = new google.maps.DirectionsService;
@@ -42,7 +41,7 @@ function findCities(serviceResponse) {
     // console.log('first route step in meters is ' + routeLeg.steps[0].distance.value); //meters
     // console.log('first route step lat/lon ' + routeLeg.steps[0].end_location.lat() + " " + routeLeg.steps[0].end_location.lng());
     let longSteps = routeLeg.steps.filter(step => step.distance.value > 1600);
-    console.log(longSteps);
+    // console.log(longSteps);
     longSteps.forEach(city => {
     	//citiesList.push(city.end_location.lat() + "," + city.end_location.lng());
     	reverseGeoCode(city.end_location.lat().toFixed(6), city.end_location.lng().toFixed(6));
@@ -90,7 +89,7 @@ function parseURLHash () {
 urlHash = parseURLHash();
 const accessToken = urlHash.access_token;
 
-searchSongs = function(city) {
+function(city) {
       $.ajax({
         url: 'https://api.spotify.com/v1/search',
         headers: {
@@ -109,8 +108,27 @@ searchSongs = function(city) {
     });
 }
 
-function renderTracks(searchList){
-  trackTitles = searchList.map(searchSongs);
+function renderTracks(searchList) {
+  let trackTitles = [];
+  trackTitles = searchList.map(function(city) {
+          $.ajax({
+            url: 'https://api.spotify.com/v1/search',
+            headers: {
+              'Authorization': 'Bearer ' + accessToken
+            },
+            data: {
+              q: 'track:'+ city,
+              type: 'track',
+              market: 'US',
+              limit: 1
+            },
+            success: function(response) {
+              console.log(response.tracks.items[0].name);
+              return response.tracks.items[0].name;
+            }
+        });
+      }
+    );
   console.log('I found these songs based on the cities:');
   console.log(trackTitles);
   }
