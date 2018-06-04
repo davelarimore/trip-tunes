@@ -97,7 +97,11 @@ function searchSongs(city) {
           limit: 5
         },
         success: function (response) {
-          console.log(response);
+          let trackTitles = [];
+          for (i=0; i < response.tracks.items.lengthl i++) {
+          trackTitles.push(response.tracks.items[0].name)
+        }
+          console.log(trackTitles);
         }
     });
 }
