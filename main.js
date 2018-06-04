@@ -89,7 +89,7 @@ function parseURLHash () {
 urlHash = parseURLHash();
 const accessToken = urlHash.access_token;
 
-searchSongs = function(city) {
+function searchSongs(city) {
       $.ajax({
         url: 'https://api.spotify.com/v1/search',
         headers: {
@@ -101,8 +101,8 @@ searchSongs = function(city) {
           market: 'US',
           limit: 1
         },
-        success: function (response) {
-          // console.log(response.tracks.items[0].name);
+        success: function(response) {
+          console.log(response.tracks.items[0].name);
           trackTitles.push(response.tracks.items[0].name)
           // for (i=0; i < response.tracks.items.length; i++) {
           // trackTitles.push(response.tracks.items[i].name)
@@ -112,7 +112,7 @@ searchSongs = function(city) {
     });
 }
 
-function renderTracks(citiesList){
-  citiesList.map(searchSongs);
+function renderTracks(searchList){
+  searchList.map(searchSongs());
   console.log(trackTitles);
   }
