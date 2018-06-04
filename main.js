@@ -47,7 +47,8 @@ function findCities(serviceResponse) {
     	//citiesList.push(city.end_location.lat() + "," + city.end_location.lng());
     	reverseGeoCode(city.end_location.lat().toFixed(6), city.end_location.lng().toFixed(6));
     })
-    console.log('I found these cities on your route:' + citiesList);
+    console.log('I found these cities on your route:');
+    console.log(citiesList);
     renderTracks(citiesList);
 }
 
@@ -109,6 +110,7 @@ searchSongs = function(city) {
 }
 
 function renderTracks(searchList){
-  searchList.map(searchSongs);
-  console.log('I found these songs based on the cities:' + trackTitles);
+  trackTitles = searchList.map(searchSongs);
+  console.log('I found these songs based on the cities:');
+  console.log(trackTitles);
   }
