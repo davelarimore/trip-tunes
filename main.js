@@ -107,7 +107,7 @@ findTrack = function(city) {
 
 function renderTracks(searchList) {
   let trackTitles = [];
-  trackTitles = searchList.map(findTrack);
+  trackTitles = searchList.map(city => findTrack(city));
   console.log('I found these songs based on the cities:');
   console.log(trackTitles);
 }
