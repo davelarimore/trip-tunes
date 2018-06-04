@@ -91,10 +91,10 @@ function searchSongs(city) {
           'Authorization': 'Bearer ' + accessToken
         },
         data: {
-          q: city,
+          q: 'track:'+ city,
           type: 'track',
           market: 'US',
-          limit: 20
+          limit: 5
         },
         success: function (response) {
           console.log(response);
