@@ -8,42 +8,55 @@ body {
   font-size: 16px;
   line-height: 1.4em;
   background-color: #333;
+  padding: 0;
+  margin: 0;
 }
-#map {
+.mapPosition {
   position: fixed;
   top: 0px;
   left: 0px;
   height: 100%;
+  width: 100%;
   opacity: .35;
+}
+#map {
+   height: 100%;
 }
 .header {
   text-align: center;
+  padding: 20px;
 }
 .header img {
   display: block;
-  margin: 0 auto;
-  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  max-width: 55%;
 }
 main {
+  position: relative;
   z-index: 5;
-  position: absolute;
-  top: 150px;
-  left: 0px;
+  margin-top: 50px;
   width: 100%;
 }
 .inputForm {
   display: inline-block;
-  margin: 30px auto;
-  height: 34px;
+  margin: 0 auto;
+  min-height: 34px;
   line-height: 34px;
   border-radius: 4px;
   background-color: #F0EFEC;
   padding: 10px 20px;
   text-align: center;
 }
-.inputForm p {
+form fieldset {
   display: inline-block;
-  margin: 0px 5px 0px 0px;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+form label {
+  margin-right: 5px;
 }
 input {
   font-family: 'Poppins', sans-serif;
@@ -91,9 +104,34 @@ input {
 }
 .results {
   max-width: 960px;
-  margin-top: 20px;
+  margin-top: 0px;
   margin-left:auto;
   margin-right: auto;
   margin-bottom: 50px;
   padding: 0 20px;
+}
+
+@media only screen and (max-width: 799px){
+  main {
+    margin-top: 20px;
+  }
+  .header img {
+    max-width: 300px;
+  }
+  .inputForm {
+    padding: 20px 20px;
+  }
+  form fieldset {
+    display: block;
+    margin-bottom: 20px;
+  }
+  input {
+    margin-right: 0px;
+  }
+}
+
+@media only screen and (max-width: 339px){
+  .header img {
+    max-width: 100%;
+  }
 }
