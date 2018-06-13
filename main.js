@@ -1,17 +1,6 @@
 let citiesList = [];
 let trackTitles = [];
 
-
-function parseURLHash () {
-    const search = location.hash.substring(1);
-    const urlHash = search?JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) {
-    return key===""?value:decodeURIComponent(value)
-  }):{}
-    return urlHash;
-}
-urlHash = parseURLHash();
-const accessToken = urlHash.access_token;
-
 //initialize Google map and form listener
 function initMap() {
   let directionsService = new google.maps.DirectionsService;
@@ -339,6 +328,17 @@ function createCitiesList(response) {
 // https://accounts.spotify.com/authorize?client_id=eb2d914cc86b4ee48be7a0ad18df13ec&redirect_uri=https:%2F%2Fdavelarimore.github.io%2Ftrip-tunes&scope=playlist-modify-public&response_type=token
 
 
+function parseURLHash () {
+    const search = location.hash.substring(1);
+    const urlHash = search?JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) {
+    return key===""?value:decodeURIComponent(value)
+  }):{}
+    return urlHash;
+}
+urlHash = parseURLHash();
+const accessToken = urlHash.access_token;
+
+
 // iterate through cities list, query for track titles in Spotify using cities
 function findTracks(citiesList) {
   let songsNotFound = 0;
@@ -347,7 +347,7 @@ function findTracks(citiesList) {
     $.ajax({
       url: 'https://api.spotify.com/v1/search',
       headers: {
-        'Authorization': 'Bearer ' + 'accessToken'
+        'Authorization': 'Bearer ' + accessToken
       },
       data: {
         q: 'track:'+ '"' + city + '"',
