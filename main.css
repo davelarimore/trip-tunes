@@ -1,25 +1,96 @@
-
-/* Always set the map height explicitly to define the size of the div
- * element that contains the map. */
+html {
+  height: 100%;
+}  
+body {
+  color: #333;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  line-height: 1.4em;
+  background-color: #333;
+}
 #map {
+  position: fixed;
+  top: 0px;
+  left: 0px;
   height: 100%;
+  opacity: .35;
 }
-/* Optional: Makes the sample page fill the window. */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-#floating-panel {
-  position: absolute;
-  top: 10px;
-  left: 25%;
-  z-index: 5;
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
+.header {
   text-align: center;
-  font-family: 'Roboto','sans-serif';
-  line-height: 30px;
-  padding-left: 10px;
+}
+.header img {
+  display: block;
+  margin: 0 auto;
+  width: 600px;
+}
+main {
+  z-index: 5;
+  position: absolute;
+  top: 150px;
+  left: 0px;
+  width: 100%;
+}
+.inputForm {
+  display: inline-block;
+  margin: 30px auto;
+  height: 34px;
+  line-height: 34px;
+  border-radius: 4px;
+  background-color: #F0EFEC;
+  padding: 10px 20px;
+  text-align: center;
+}
+.inputForm p {
+  display: inline-block;
+  margin: 0px 5px 0px 0px;
+}
+input {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  padding: 5px;
+  background-color: #ddd;
+  border:2px solid #ddd;
+  margin-right: 15px;
+}
+.button {
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    background-color: #000;
+    border:2px solid #000;
+    color: #FFF;
+    padding: 5px 25px;
+    text-align: center;
+    text-decoration: none;
+}
+.result {
+  font-size: 14px;
+  min-height: 64px;
+  border-radius: 4px;
+  background-color: #F0EFEC;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+.result img {
+  float: left;
+  margin: 0 10px 0 0;
+  height: 64px;
+  width: 64px;
+}
+.result p {
+  padding: 0 0 5px 0;
+  margin: 0;
+}
+.result p span {
+  font-size: 16px;
+  font-weight: 700;
+}
+.results {
+  max-width: 960px;
+  margin-top: 20px;
+  margin-left:auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+  padding: 0 20px;
 }
