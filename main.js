@@ -1,4 +1,4 @@
-let citiesList = [];
+let citiesList = ['chicago','new york','atlanta'];
 
 function initMap() {
   let directionsService = new google.maps.DirectionsService;
@@ -10,7 +10,7 @@ function initMap() {
   directionsDisplay.setMap(map);
 
   let onChangeHandler = function() {
-    citiesList = [];
+    // citiesList = []; // reset
   	calculateAndDisplayRoute(directionsService, directionsDisplay);
   	};
   	document.getElementById('js-submit').addEventListener('click', onChangeHandler);
@@ -26,6 +26,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
     if (status === 'OK') {
       directionsDisplay.setDirections(response);
       findCities(response);
+      renderTracks(citiesList);
     } else {
       window.alert('Directions request failed due to ' + status);
     }
@@ -46,7 +47,6 @@ function findCities(serviceResponse) {
     })
     console.log('I found these cities on your route:');
     console.log(citiesList);
-    renderTracks(citiesList);
 }
 
 function reverseGeoCode(lat, lon) {
@@ -77,20 +77,21 @@ function convertToCity(data) {
 
 // ======Spotify=======
 // https://accounts.spotify.com/authorize?client_id=eb2d914cc86b4ee48be7a0ad18df13ec&redirect_uri=https:%2F%2Fdavelarimore.github.io%2Ftrip-tunes&scope=playlist-modify-public&response_type=token
+// https://davelarimore.github.io/trip-tunes/#access_token=BQB8gW0GP06f_uQ9u7abGNOUIzqrqKibt_5IWB1IwfUCNTD1pEHiuJgS_kk8OIBTvM1A93Bx1_kWumrbfgfT1vRGBz8IM_5ZuT6015DWWz5sVYusLaXSGKyCTwAZZDvurTuAiVXHUipQVk4jCI7Hl_jTZN_uk06y0qwY9jlfQiZqaw&token_type=Bearer&expires_in=3600
 
-function parseURLHash () {
-    let search = location.hash.substring(1);
-    let urlHash = search?JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) }):{}
-    return urlHash;
-}
-urlHash = parseURLHash();
-const accessToken = urlHash.access_token;
+// function parseURLHash () {
+//     let search = 'location.hash.substring(1);'
+//    let urlHash = search?JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) }):{}
+//    return urlHash;
+//}
+//urlHash = parseURLHash();
+//const accessToken = urlHash.access_token;
 
-findTrack = function(city) {
+function findTrack(city) {
   $.ajax({
     url: 'https://api.spotify.com/v1/search',
     headers: {
-      'Authorization': 'Bearer ' + accessToken
+      'Authorization': 'Bearer ' + 'BQAMBiEyS9rwPylfghkeNEBHoX3hgqx1a5sEXFPCZYizvNYAs7uEaYTJEoTRCArSM6-oAKRiAxPs0dCybxwbX4y7CEB1ILjvfn4WWPg84zkCMQ1uHmh3X0MqtTw4ggHeybGSMwDl7qQenq03VMBgYVxtGihoZkFy_iBvAcSIv90Mmg'
     },
     data: {
       q: 'track:'+ city,
@@ -106,8 +107,10 @@ findTrack = function(city) {
 }
 
 function renderTracks(searchList) {
-  let trackTitles = [];
-  trackTitles = searchList.map(findTrack);
+  console.log(searchList);
+  const trackTitles = searchList.map(function(city) {
+    findTrack(city);
+  });
   console.log('I found these songs based on the cities:');
   console.log(trackTitles);
 }
