@@ -347,7 +347,7 @@ function findTracks(citiesList) {
     $.ajax({
       url: 'https://api.spotify.com/v1/search',
       headers: {
-        'Authorization': 'Bearer ' + "'" + accessToken + "'"
+        'Authorization': 'Bearer ' + accessToken
       },
       data: {
         q: 'track:'+ '"' + city + '"',
