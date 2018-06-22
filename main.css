@@ -6,7 +6,6 @@ html {
 }  
 body {
   color: #333;
-  /*height: 100%;*/
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
   line-height: 1.4em;
@@ -83,9 +82,11 @@ table, th, tr, td {
   border-spacing: 0;
 }
 .searchFieldLabel {
+  font-weight: 700;
   width: 100px;
 }
 .playlistFieldLabel {
+  font-weight: 700;
   width: 140px;
   text-align: center;
   }
@@ -96,14 +97,11 @@ table, th, tr, td {
   flex-basis: 420px;
   margin-bottom: 0px;
 }
-form label {
-  font-weight: 700;
-}
 input {
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
   padding: 5px;
-  background-color: #ddd;
+  background-color: #DDD;
   border: none;
   margin: 0;
 }
@@ -233,11 +231,8 @@ input[type=text] {
   width: 100%;
   margin-bottom: 10px;
   }
-}
-
-@media only screen and (max-width: 959px){
   .header img {
-    width: 100%;
+  width: 100%;
   }
 }
 
