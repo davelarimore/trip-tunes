@@ -1,6 +1,5 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
@@ -8,32 +7,47 @@
     <title>Trip Tunes</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="main.css">
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   </head>
   <body>
-    <main>
-      <div class="header">
-      <img src="https://s3.us-east-2.amazonaws.com/www.davelarimore.com/trip-tunes/trip-tunes-logo-800.jpg.png">
-      <div class="inputForm">
-        <form id="js-form">
-          <fieldset name="start">
-            <label for="start">TRIP START: </label>
-              <input id="start"></input>
-          </fieldset>
-          <fieldset name="start">
-            <label for="end">TRIP END: </label>
-              <input id="end"></input>
-          </fieldset>
-          <input class="button" id="js-submit" type="submit" value="SEARCH" />
-        </form>
+    <main role="main">
+      <div class="header" role="header">
+        <img src="https://s3.us-east-2.amazonaws.com/www.davelarimore.com/trip-tunes/trip-tunes-logo-800.jpg.png" alt="Trip Tunes">
+          <div class="formContainer">
+          <form class="flexGrow js-searchForm">
+            <fieldset name="start">
+              <table class="inputContainer">
+                <td class="searchFieldLabel">
+                  <label for="start">Trip Start: </label>
+                </td>
+                <td>
+                  <input type="text" class="start" id="start" title="Where your trip begins" required></input>
+                </td>
+              </table>
+            </fieldset>
+            <fieldset name="end">
+              <table class="buttonContainer">
+                <td class="searchFieldLabel">
+                  <label for="end">Trip End: </label>
+                </td>
+                <td>
+                  <input type="text" class="end" id="end" title="Your destination" required></input>
+                </td>
+              </table>
+            </fieldset>
+            <fieldset name="search">
+              <input class="searchButton" id="js-submit" type="submit" value="Search" />
+            </fieldset>
+          </form>
+        </div>
       </div>
-      </div>
-      <div class="results js-search-results">
-      </div>
+      <div class="results js-search-results"></div>
+      <div class="playlistContainer"></div>
     </main>
     <div class="mapPosition">
       <div id="map"></div>
     </div>
+    <script type="text/javascript" src="mapstyle.js"></script>
     <script type="text/javascript" src="main.js"></script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDy8TJO_D0Ewh8Y7WXBfO8O0GalpZwqyfU&callback=initMap&libraries=places">

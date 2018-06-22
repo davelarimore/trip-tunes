@@ -1,15 +1,31 @@
+* {
+  box-sizing: border-box;
+}
 html {
   height: 100%;
 }  
 body {
   color: #333;
-  height: 100%;
+  /*height: 100%;*/
   font-family: 'Poppins', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.4em;
-  background-color: #333;
+  background-image: url("https://s3.us-east-2.amazonaws.com/www.davelarimore.com/trip-tunes/trip-tunes-bg-dark.jpg");
+  background-repeat: no-repeat;
+  background-position: center top; 
+  background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
   padding: 0;
   margin: 0;
+}
+::selection {
+  background: #DD9331;
+}
+::-moz-selection {
+  background: #DD9331;
 }
 .mapPosition {
   position: fixed;
@@ -30,108 +46,213 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 20px;
-  max-width: 55%;
+  margin-bottom: 50px;
+  max-width: 600px;
 }
 main {
   position: relative;
   z-index: 5;
-  margin-top: 50px;
-  width: 100%;
+  margin: 125px auto;
+  max-width: 960px;
 }
-.inputForm {
+.formContainer {
   display: inline-block;
-  margin: 0 auto;
-  min-height: 34px;
-  line-height: 34px;
+  width: 100%;
   border-radius: 4px;
   background-color: #F0EFEC;
-  padding: 10px 20px;
-  text-align: center;
+  padding: 15px 0 0 15px;
+}
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 form fieldset {
-  display: inline-block;
   border: none;
   padding: 0;
-  margin: 0;
+  margin-right: 15px;
+}
+.inputContainer {
+  /*table-layout:fixed;*/
+  width: 100%;
+  margin-bottom: 15px;
+}
+.buttonContainer {
+  width: 100%;
+}
+table, th, tr, td {
+  border-spacing: 0;
+}
+.searchFieldLabel {
+  width: 100px;
+}
+.playlistFieldLabel {
+  width: 140px;
+  text-align: center;
+  }
+.flexGrow fieldset {
+  flex-grow: 1;
+}
+.playlistFieldset {
+  flex-basis: 420px;
+  margin-bottom: 0px;
 }
 form label {
-  margin-right: 5px;
+  /*text-align: right;
+  margin: 0 5px 10px 0;
+  border-right: 10px solid #F0EFEC;
+  width: 100px;*/
+  font-weight: 700;
 }
 input {
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
   padding: 5px;
   background-color: #ddd;
-  border:2px solid #ddd;
-  margin-right: 15px;
+  border: none;
+  margin: 0;
 }
-.button, .startButton {
-    display: inline-block;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    background-color: #000;
-    border:2px solid #000;
-    color: #FFF;
-    padding: 5px 25px;
-    text-align: center;
-    text-decoration: none;
+/*input:focus {
+  outline: none !important;
+  border:2px solid #DD9331;
+}*/
+input[type=text] {
+  width: 100%;
+  height: 35px;
 }
-.startButton {
-  margin-top: 30px;
+.button, .button2, .searchButton {
+  display: inline-block;
+  padding: 7px 20px;
+  margin: 0px 15px 15px 0px;
+  font-family: 'Poppins', sans-serif;
+  text-decoration: none;
+  border: none;
+      -webkit-transition-property: background;
+       -moz-transition-property: background;
+         -o-transition-property: background;
+            transition-property: background;
+    -webkit-transition-duration: 200ms;
+       -moz-transition-duration: 200ms;
+         -o-transition-duration: 200ms;
+            transition-duration: 200ms;
+    -webkit-transition-timing-function: linear;
+       -moz-transition-timing-function: linear;
+         -o-transition-timing-function: linear;
+            transition-timing-function: linear;
+}
+.button {
+  color: #FFF;
+  background-color: #7D4A35;
+}
+.button2 {
+  color:#653B2A;
+  background-color: #E4B250;
+}
+.button:hover {
+  background-color: #975631;
+}
+.button2:hover {
+  background-color: #DDA027;
+}
+.searchButton {
+  color: #FFF;
+  background-color: #7D4A35;
+  width: 100%;
+}
+.searchButton:hover {
+  background-color: #975631;
 }
 .result {
+  text-align: left;
   font-size: 14px;
   min-height: 64px;
   border-radius: 4px;
   background-color: #F0EFEC;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 15px;
 }
-.result img {
-  float: left;
-  margin: 0 10px 0 0;
-  height: 64px;
-  width: 64px;
+.result:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 .result p {
   padding: 0 0 5px 0;
   margin: 0;
+  overflow: hidden;
 }
 .result p span {
   font-size: 16px;
   font-weight: 700;
 }
+.trackInfo {
+  float: left;
+  width: 640px;
+}
+.trackInfo img {
+  float: left;
+  margin: 0 10px 0 0;
+  height: 64px;
+  width: 64px;
+}
+.trackText {
+  text-align: left;
+}
+.audioPreview {
+  float: left;
+  width: 250px;
+}
+.audioPreview audio {
+  width: 250px;
+}
 .results {
+  text-align: center;
   max-width: 960px;
   margin-top: 0px;
   margin-left:auto;
   margin-right: auto;
-  margin-bottom: 50px;
   padding: 0 20px;
 }
+.error {
+  color: #FF3333;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 4px;
+  background-color: #F0EFEC;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+.playlistContainer {
+  text-align: center;
+}
+.playlistURL {
+  text-align: center;
+  border-radius: 4px;
+  background-color: #F0EFEC;
+  padding-right: 15px;
+}
+.saveSuccess {
+  line-height: 18px;
+  margin: 0;
+  padding: 10px 0 0 0;
+}
 
-@media only screen and (max-width: 799px){
-  main {
-    margin-top: 20px;
-  }
-  .header img {
-    max-width: 300px;
-  }
-  .inputForm {
-    padding: 20px 20px;
-  }
-  form fieldset {
-    display: block;
-    margin-bottom: 20px;
-  }
-  input {
-    margin-right: 0px;
+@media only screen and (max-width: 959px){
+  .trackInfo {
+  width: 100%;
+  margin-bottom: 10px;
   }
 }
 
-@media only screen and (max-width: 339px){
+@media only screen and (max-width: 959px){
   .header img {
-    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 539px){
+  input, .button, .button2 {
+    width: 100%;
+    /*margin-right: 0px;*/
   }
 }
