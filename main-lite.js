@@ -1,11 +1,8 @@
 let citiesList = [];
 let trackTitles = [];
-let spotifyTrackIds = [];
+let musicBrainzTrackIds = [];
 let directionsService;
 let directionsDisplay;
-const authURL = 'https://accounts.spotify.com/authorize?client_id=eb2d914cc86b4ee48be7a0ad18df13ec&redirect_uri=https:%2F%2Fdavelarimore.github.io%2Ftrip-tunes%2Fsearch&scope=playlist-modify-public&response_type=token';
-const urlHash = parseURLHash();
-const accessToken = urlHash.access_token;
 
 // initialize Google map
 function initMap() {
@@ -105,15 +102,6 @@ function createCitiesList(response) {
     });
   }
 
-// get spotify access token from URL
-function parseURLHash () {
-  const search = location.hash.substring(1);
-  const urlHash = search?JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) {
-    return key===""?value:decodeURIComponent(value)
-  }):{}
-  return urlHash;
-}
-
 // iterate through cities list, query for track titles in Spotify using cities
 function findTracks(citiesList) {
   let songsNotFound = 0;
@@ -121,19 +109,10 @@ function findTracks(citiesList) {
   const endCity = citiesList[citiesList.length - 1];
   citiesList.forEach(function(city) {
     $.ajax({
-      url: 'https://api.spotify.com/v1/search',
-      headers: {
-        'Authorization': 'Bearer ' + accessToken
-      },
-      data: {
-        q: 'track:'+ '"' + city + '"',
-        type: 'track',
-        market: 'US',
-        limit: 10
-      },
+      url: `https://musicbrainz.org/ws/2/recording?query=%22${city}%22&fmt=json`
     }).done(function(data) {
-      const eligibleTracks = filterTrackNames(data.tracks.items);
-      if (data.tracks.total === 0 || eligibleTracks.length === 0){
+      const eligibleTracks = filterTrackNames(data.recordings);
+      if (data.count === 0 || eligibleTracks.length === 0){
         songsNotFound++;
       }
       else {
@@ -158,15 +137,23 @@ function renderTracks() {
 //filter track results
 function filterTrackNames(tracks) {
   return tracks.filter(function(track) {
-    return !track.name.match(/feat.|Feat.|featuring|Remix|Live|Recorded|Version|Edit/)
+    return !track.title.match(/feat.|Feat.|featuring|Remix|Live|Recorded|Version|Edit/)
   });
 }
 
 // pick a random track from eligibleTracks and collect its data
 function addTrackToList(eligibleTracks) {
   const chosenTrack = eligibleTracks[Math.floor(Math.random() * eligibleTracks.length)];
-  trackTitles.push({'name': chosenTrack.name, 'artist': chosenTrack.artists[0].name, 'album': chosenTrack.album.name, 'image': chosenTrack.album.images[2].url, 'previewURL': chosenTrack.preview_url});
-  spotifyTrackIds.push(chosenTrack.id);
+  const albumID = chosenTrack.releases[0].id;
+  let albumArtURL = 'http://ia802607.us.archive.org/32/items/mbid-76df3287-6cda-33eb-8e9a-044b5e15ffdd/mbid-76df3287-6cda-33eb-8e9a-044b5e15ffdd-829521842_thumb250.jpg';
+    trackTitles.push(
+      {'name': chosenTrack.title,
+      'artist': chosenTrack['artist-credit'][0].artist.name,
+      'album': chosenTrack.releases[0].title,
+      'image': albumArtURL,
+      'previewURL': null}
+      );
+    musicBrainzTrackIds.push(chosenTrack.id);
 }
 
 // generate HTML for one track
@@ -181,7 +168,6 @@ function generateTrackHTML(result) {
 function renderPlaylistForm(startCity, endCity) {
   const playlistForm = `<div class="playlistForm"><form class="js-playlistForm"><fieldset class="playlistFieldset" name="playlist"><table class="inputContainer"><td class="playlistFieldLabel"><label for="playlistName">Playlist Name: </label></td><td><input type="text" id="playlistName" class="playlistName" value="${startCity} to ${endCity} Playlist" required></input></td></table></fieldset><fieldset name="searchActions"><table class="buttonContainer"><td><input class="button" id="js-submitPlaylist" type="submit" value="Save Playlist" /><input class="button2 js-randomize" id="js-randomize" type="button" value="Randomize Tunes" /><input class="button2" id="js-newSearch" type="reset" value="New Route" /></td></table></fieldset></form></div>`
   $('.formContainer').html(playlistForm);
-  $(onPlaylistSave); // listen for playlist save
   $(onRandomize); // listen for randomize
   $(onNewSearch); // listen for new search
 }
@@ -202,64 +188,3 @@ function onNewSearch() {
     location.replace(authURL);
   })
 };
-
-// playlist save listener
-function onPlaylistSave() {
-  $('.js-playlistForm').on('submit', function(event) {
-    event.preventDefault();
-    getSpotifyUser();
-  })
-}
-
-function getSpotifyUser() {
-  $.ajax({
-    url: 'https://api.spotify.com/v1/me',
-    headers: {
-      'Authorization': 'Bearer ' + accessToken
-    }
-  }).done(function(data) {
-    const spotifyUser = (data.id);
-    createSpotifyPlaylist(spotifyUser)
-  })
-}
-
-function createSpotifyPlaylist(spotifyUser) {
-  const playlistName = $('.playlistName').val();
-  $.ajax({
-    method: 'POST',
-    url: `https://api.spotify.com/v1/users/${spotifyUser}/playlists`,
-    headers: {
-      'Authorization': 'Bearer ' + accessToken,
-      'Content-Type': 'application/json'
-    },
-    data: JSON.stringify({name: playlistName, public: true}),
-  }).done(function(data) {
-    populateSpotifyPlaylist(spotifyUser, data.id);
-  })
-}
-
-function populateSpotifyPlaylist(spotifyUser, playlistId) {
-  const URIList = 'spotify:track:' + spotifyTrackIds.join(',spotify:track:');
-  $.ajax({
-    method: 'POST',
-    url: `https://api.spotify.com/v1/users/${spotifyUser}/playlists/${playlistId}/tracks?uris=${URIList}`,
-    headers: {
-      'Authorization': 'Bearer ' + accessToken,
-    },
-  }).done(function(data) {
-      const playlistURL = `https://open.spotify.com/user/${spotifyUser}/playlist/${playlistId}`;
-      renderPlaylistLink(playlistURL);
-  })
-}
-function renderPlaylistLink(playlistURL) {
-  const playlistLinkHTML = `<div class="playlistURL"><p class="saveSuccess">Playlist saved to Spotify!</p><br /><a href="${playlistURL}" class="button" target="_blank">View Playlist</a><a class="js-reset button2" href="#">New Route</a></div>`;
-  $('.formContainer').html(playlistLinkHTML);
-  $(onResetSearch);
-}
-
-function onResetSearch() {
-  $('.js-reset').on('click', function(event){
-    event.preventDefault();
-      location.replace(authURL);
-  })
-}
