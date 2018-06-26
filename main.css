@@ -118,7 +118,7 @@ table, th, tr, td {
   flex-grow: 1;
 }
 .playlistFieldset {
-  flex-basis: 420px;
+  flex-basis: 375px;
   margin-bottom: 0px;
 }
 input {
@@ -134,7 +134,7 @@ input[type=text] {
   height: 39px;
 }
 .button, .button2, .searchButton {
-  /*display: inline-block;*/
+  display: inline-block;
   padding: 7px 20px;
   margin: 0px 15px 15px 0px;
   font-size: 16px;
